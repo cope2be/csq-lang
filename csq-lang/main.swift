@@ -7,5 +7,9 @@
 
 import Foundation
 
-print("Hello, World!")
+let my_src = """
+int x = 128;
+int ~ptr = &x;
+"""
 
+let my_lexer = lexer(my_src)
