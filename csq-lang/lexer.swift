@@ -9,6 +9,7 @@
 // somebody help
 
 // TODO: add support for puncs, types, and multi chars symbols
+// TODO: validate symbols
 
 enum token_type
 {
