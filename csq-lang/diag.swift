@@ -13,20 +13,17 @@ struct diag_ctx
 {
 	let token: token
 
-	let msg: String?
 	let hint: String
 		
-	init(_ token: token, _ hint: String, _ msg: String? = nil)
+	init(_ token: token, _ hint: String)
 	{
 		self.token = token
-
-		self.msg = msg
 		self.hint = hint
 	}
 }
 
 @inline(__always)
-private func make_msg(_ type: String, _ hint: String, _ ctxs: [ diag_ctx ]) -> String
+private func make_msg(_ type: String, _ msg: String, _ hint: String, _ ctxs: [ diag_ctx ]) -> String
 {
 	var output: String = ""
 	var has_header = false
@@ -35,11 +32,11 @@ private func make_msg(_ type: String, _ hint: String, _ ctxs: [ diag_ctx ]) -> S
 	{
 		let t: token = ctx.token
 		
-		if !has_header && ctx.msg != nil
+		if !has_header
 		{
 			has_header = true
 			
-			output += "\(type): \(ctx.msg!)\n"
+			output += "\(type): \(msg)\n"
 			output += "  --> main.csq:\(t.line):\(t.col)\n"
 			output += "   |\n"
 		}
@@ -71,7 +68,7 @@ private func make_msg(_ type: String, _ hint: String, _ ctxs: [ diag_ctx ]) -> S
 }
 
 // boring white texts are fine (prolly)
-func diag_err(_ hint: String, _ ctxs: [ diag_ctx ])
+func diag_err(_ msg: String, _ hint: String, _ ctxs: [ diag_ctx ])
 {
-	print(make_msg("error", hint, ctxs))
+	print(make_msg("error", msg, hint, ctxs))
 }

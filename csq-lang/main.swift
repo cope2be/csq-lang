@@ -24,6 +24,6 @@ repeat
 }
 while my_tokens.last?.type != .EOF
 				
-diag_err("help: *useful info*", [ diag_ctx(my_tokens[3], "haha yes", "something something error"), diag_ctx(my_tokens[5], "no info") ])
+diag_err("something something error", "help: *useful info*", [ diag_ctx(my_tokens[3], "haha yes"), diag_ctx(my_tokens[5], "no info") ])
 
 exit(0)
