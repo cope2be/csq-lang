@@ -13,13 +13,17 @@ int ~ptr = &x;
 """
 
 var my_lexer: lexer = lexer(my_src)
-var my_token: token = my_lexer.get_next_token()
+var my_tokens: [ token ] = []
 
-while my_token.type != .EOF
+repeat
 {
-	print(my_token)
-	my_token = my_lexer.get_next_token()
+	let t = my_lexer.next_token()
+	
+//	print(t)
+	my_tokens.append(t)
 }
+while my_tokens.last?.type != .EOF
+				
+diag_err("help: *useful info*", [ diag_ctx(my_tokens[3], "haha yes", "something something error"), diag_ctx(my_tokens[5], "no info") ])
 
-print(my_lexer.get_line(0)!)
-print(my_lexer.get_line(1)!)
+exit(0)
