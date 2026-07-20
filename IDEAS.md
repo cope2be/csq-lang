@@ -70,11 +70,11 @@ i64 ^foo = malloc(100 * sizeof(i64));
 // void borrow(i64 *a);
 // void consume(i64 ^a);
 
-borrow(&foo); // pass only the reference
+borrow(&foo); // pass only the address
 consume(^foo); // pass the ownership and `foo` becomes uninit
 
 // also just for demonstration
-// free(^foo); // error! the scope no longers own the pointer
+// free(^foo); // error! this scope no longers own the pointer
 ```
 
 ### ownership tracking
