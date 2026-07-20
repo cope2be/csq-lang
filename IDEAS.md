@@ -40,7 +40,7 @@ i64 *bar = &foo;
 ```
 
 ## nullable
-* the only point that is allowed to point to `nullptr`
+* the only pointer that is allowed to point to `nullptr`
 * requires `nullptr` check
 * its sigil is `~`
 
