@@ -56,7 +56,6 @@ if (bar != nullptr)
 ```
 
 ## owned
-how sweet!
 
 * a variant of non nullable
 * its sigil is `^`
