@@ -5,16 +5,19 @@ most edges will not be addressed
 but some will be expanded on later
 
 # philosophies
-* no implicit behaviors (where it is stupid)
+* respect the programmers intelligence
+    + don't babysit them, just provide them the tools
+* explicibility, predictability, and intent first
 * remain syntactically close to standard c as much as possible
-* every features must be deterministic and predictable
-* every features also must be able to map to standard c cleanly
+* every features must map to standard c cleanly
 
 # changes
-* no `goto`
-* no pointer arithmetic
-* no (unsafe) type punning
-* no implicit lossy type conversions
+|          feature          |              change             |
+|:-------------------------:|:-------------------------------:|
+|           `goto`          |             removed             |
+| pointer arithmetic        |        replaced by slice        |
+|        type punning       | replaced by reinterpreting cast |
+| implicit lossy conversion |             removed             |
 
 # pipeline
 * switch target to c11
