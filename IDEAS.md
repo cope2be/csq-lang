@@ -96,6 +96,6 @@ else
 	// so do whatever!	
 }
 
-// as `foo` may or may not be consumed
+// as `foo` may or may not be consumed here
 // `foo` will be uninit here
 ```
