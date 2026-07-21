@@ -5,18 +5,18 @@ most edges will not be addressed
 but some will be expanded on later
 
 # philosophies
-* respect the programmers intelligence
-    + don't babysit them, just provide them the tools
 * explicibility, predictability, and intent first
 * remain syntactically close to standard c as much as possible
 * every features must map to standard c cleanly
+* respect the programmers intelligence
+    + don't babysit them, just provide them the tools
 
 # changes
 |          feature          |              change             |
 |:-------------------------:|:-------------------------------:|
 |           `goto`          |             removed             |
 | pointer arithmetic        |        replaced by slice        |
-|        type punning       | replaced by reinterpreting cast |
+|        type punning       | replaced by bit cast |
 | implicit lossy conversion |             removed             |
 
 # pipeline
