@@ -6,18 +6,33 @@ but some will be expanded on later
 
 # philosophies
 * explicibility, predictability, and intent first
-* remain syntactically close to standard c as much as possible
+	+ magics are fine, they just need to be predictable and deterministic
 * every features must map to standard c cleanly
-* respect the programmers intelligence
-    + don't babysit them, just provide them the tools
+* retain high parity with standard c as much as possible
+	+ divergent is fine, but straying too far is not (being shackled won't do anything good)
+* trust the programmer to be competent
 
-# changes
-|          feature          |              change             |
-|:-------------------------:|:-------------------------------:|
-|           `goto`          |             removed             |
-| pointer arithmetic        |        replaced by slice        |
+# minor changes
+|          feature          |        change        |
+|:-------------------------:|:--------------------:|
+|           `goto`          |        removed       |
 |        type punning       | replaced by bit cast |
-| implicit lossy conversion |             removed             |
+|     pointer arithmetic    |   replaced by slice  |
+| implicit lossy conversion |        removed       |
+
+## jump statements
+* they can become labelled now
+
+```c
+outer_loop: for (condition)
+{
+	inner_loop: for (condition)
+	{
+		// break outer_loop;
+		continue outer_loop;
+	}
+}
+```
 
 # pipeline
 * switch target to c11
@@ -73,7 +88,7 @@ i64 ^foo = malloc(100 * sizeof(i64));
 // void borrow(i64 *a);
 // void consume(i64 ^a);
 
-borrow(&foo); // pass only the address
+borrow(&foo); // pass only the address (borrow)
 consume(^foo); // pass the ownership and `foo` becomes uninit
 
 // also just for demonstration
@@ -100,4 +115,21 @@ else
 
 // as `foo` may or may not be consumed here
 // `foo` will be uninit here
+```
+
+### cyclic references
+> [!NOTE]
+> to be completely honest, i have no idea on this type of stuff
+
+* only one direction holds ownership
+* whereas back references use borrows
+
+```c
+struct node
+{
+	i64 val;
+	
+	struct node ^child; // the parent owns the child (therefore, responsible for freeing it)
+	struct node ~parent; // the child can own borrows the parent
+}
 ```
