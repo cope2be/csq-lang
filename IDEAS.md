@@ -116,20 +116,3 @@ else
 // as `foo` may or may not be consumed here
 // `foo` will be uninit here
 ```
-
-### cyclic references
-> [!NOTE]
-> to be completely honest, i have no idea on this type of stuff
-
-* only one direction holds ownership
-* whereas back references use borrows
-
-```c
-struct node
-{
-	i64 val;
-	
-	struct node ^child; // the parent owns the child (therefore, responsible for freeing it)
-	struct node ~parent; // the child can own borrows the parent
-}
-```
