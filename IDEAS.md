@@ -41,13 +41,13 @@ outer_loop: for (condition)
 the bread and butter
 
 > [!NOTE]
-> pointers are still passed like standard c
+> by default, all pointers are non nullable
 >
-> just with the addition of passing ownerships
+> to add nullability, `?` must be prefixed before the pointer's sigil
+>
+> nullable pointers also must be null checked before dereferencing
 
-## non nullable
-* obviously cannot point to `nullptr`
-* doesn't require `nullptr` check (duh)
+## reference
 * its sigil is `*`
 
 ```c
@@ -57,62 +57,44 @@ i64 *bar = &foo;
 // do whatever
 ```
 
-## nullable
-* the only pointer that is allowed to point to `nullptr`
-* requires `nullptr` check
-* its sigil is `~`
-
-```c
-i64 foo = 2569;
-i64 ~bar = nullptr;
-
-if (bar != nullptr)
-{
-	// `bar` is promoted to non nullable
-	// so do whatever!
-}
-```
-
 ## owned
-
-* a variant of non nullable
 * its sigil is `^`
 * ownership is also passed via `^`
-* requires freeing before its owner scope ends
+* requires manual freeing before its owner scope ends
 
 ```c
-// i know `malloc` can returns `NULL`
-// but this is just for the sake of demonstration
-i64 ^foo = malloc(100 * sizeof(i64));
+i64 ?^foo = malloc(100 * sizeof(i64));
+
+if (foo == nullptr)
+	return
+	
+// `foo` is promoted to non nullable here
 
 // void borrow(i64 *a);
 // void consume(i64 ^a);
 
-borrow(&foo); // pass only the address (borrow)
-consume(^foo); // pass the ownership and `foo` becomes uninit
+borrow(&foo); // borrow `foo`
+consume(^foo); // consume `foo`, making it uninit in this scope
 
-// also just for demonstration
-// free(^foo); // error! this scope no longers own the pointer
+// free(^foo); // error! this scope no longers own `foo`
 ```
 
 ### ownership tracking
-* every owned pointers must be explicity free before its owner scope dies
+TODO: clarify branch merging rule
 
 ```c
-i64 ^foo = malloc(100 * sizeof(i64));
-
 if (condition)
 {
-	consume(^foo); // `foo` is now consumed in this block
+	consume(^foo); // `foo` becomes consumed here
 }
 else
 {
-	// `foo` isn't consumed here
-	// `foo` still have to be consumed here tho
+	// since `foo` haven't been consumed here
+	// this scope will be responsible for freeing it
 
 	// so do whatever!	
 }
 
-// as `foo` may or may not be consumed here
-// `foo` will be uninit here
+// to prevent sillies
+// `foo` will becomes consumed here
 ```
