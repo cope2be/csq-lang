@@ -80,7 +80,7 @@ consume(^foo); // consume `foo`, making it uninit in this scope
 ```
 
 ### ownership tracking
-TODO: clarify branch merging rule
+* every control path must resolve owned pointers identically
 
 ```c
 if (condition)
@@ -89,12 +89,10 @@ if (condition)
 }
 else
 {
-	// since `foo` haven't been consumed here
-	// this scope will be responsible for freeing it
-
-	// so do whatever!	
+	// since the first branch consumes `foo`
+	// this branch must also consume it
 }
 
-// to prevent sillies
-// `foo` will becomes consumed here
+// both of the branches already consumed `foo`
+// so it will becomes uninit here!
 ```
