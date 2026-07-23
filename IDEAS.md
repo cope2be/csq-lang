@@ -74,7 +74,7 @@ if (foo == nullptr)
 // void consume(i64 ^a);
 
 borrow(&foo); // borrow `foo`
-consume(^foo); // consume `foo`, making it uninit in this scope
+consume(^foo); // consume `foo`, making it consumed (duh) in this scope
 
 // free(^foo); // error! this scope no longers own `foo`
 ```
@@ -94,5 +94,5 @@ else
 }
 
 // both of the branches already consumed `foo`
-// so it will becomes uninit here!
+// so it will becomes consumed here!
 ```
